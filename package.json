@@ -1,0 +1,109 @@
+{
+  "name": "timon-plugin-discord",
+  "version": "0.2.0",
+  "description": "Talk to a Timon agent from Discord: direct messages and chosen channels, one mission per day, question cards.",
+  "license": "MIT",
+  "author": "FlorentBL",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FlorentBL/timon-plugin-discord.git"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "node --test test/"
+  },
+  "timon": {
+    "id": "discord",
+    "apiVersion": 10,
+    "kind": [
+      "behavior"
+    ],
+    "label": "Discord conversation",
+    "description": "Chat with a Timon agent from Discord (DM and chosen channels). Reads Discord over REST, answers the owner only, relays agent replies and question cards.",
+    "author": "FlorentBL",
+    "permissions": [
+      "secrets:read",
+      "http:outbound",
+      "storage",
+      "settings",
+      "agents:read",
+      "missions:spawn",
+      "missions:read",
+      "missions:control",
+      "missions:transcript",
+      "events:subscribe",
+      "questions:read",
+      "questions:answer"
+    ],
+    "settings": [
+      {
+        "key": "pollEnabled",
+        "type": "boolean",
+        "label": "Enable the conversation (reads Discord every few seconds)",
+        "default": false
+      },
+      {
+        "key": "botToken",
+        "type": "secret",
+        "label": "Bot token (stored sealed by Timon; used first when set)"
+      },
+      {
+        "key": "tokenSecret",
+        "type": "string",
+        "label": "Or: vault entry holding the bot token, granted to agent:plugin:discord",
+        "default": "DISCORD_BOT_TOKEN"
+      },
+      {
+        "key": "guildId",
+        "type": "string",
+        "label": "Discord server id (used to find the owner when no owner id is set)",
+        "default": ""
+      },
+      {
+        "key": "ownerId",
+        "type": "string",
+        "label": "Discord user id allowed to talk to the agent (default: owner of the server)",
+        "default": ""
+      },
+      {
+        "key": "agent",
+        "type": "string",
+        "label": "Agent that answers (default: the main agent)",
+        "default": ""
+      },
+      {
+        "key": "channels",
+        "type": "string",
+        "label": "Server channel ids to listen to, comma separated (DM is always on)",
+        "default": ""
+      },
+      {
+        "key": "pollSeconds",
+        "type": "number",
+        "label": "Polling interval (seconds, minimum 5)",
+        "default": 10
+      },
+      {
+        "key": "rolloverTime",
+        "type": "string",
+        "label": "Time of day (HH:MM) at which a new daily conversation starts",
+        "default": "04:00"
+      },
+      {
+        "key": "timezone",
+        "type": "string",
+        "label": "Time zone for the daily rollover (IANA name)",
+        "default": "Europe/Paris"
+      }
+    ],
+    "license": {
+      "required": false
+    }
+  },
+  "files": [
+    "lib",
+    "README.md",
+    "LICENSE"
+  ]
+}
